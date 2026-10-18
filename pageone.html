@@ -1,0 +1,653 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAYSKIE.exe // Portfolio</title>
+
+<style>
+:root {
+  --green: #39ff14;
+  --dim: #168a0a;
+  --black: #050805;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--green);
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  cursor: none;
+  overflow-x: hidden;
+}
+
+a, button { cursor: none; }
+
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+a:hover {
+  background: var(--green);
+  color: black;
+  text-shadow: none;
+}
+
+::selection {
+  background: var(--green);
+  color: black;
+}
+
+/* CRT SCANLINES */
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    transparent 0px,
+    transparent 3px,
+    #39ff1408 4px
+  );
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    #000b00 100%
+  );
+}
+
+/* CUSTOM CURSOR */
+
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--green);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 0 12px var(--green);
+}
+
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 99;
+  color: var(--green);
+  animation: fade 650ms linear forwards;
+}
+
+@keyframes fade {
+  to {
+    opacity: 0;
+    transform: translateY(-24px) scale(0);
+  }
+}
+
+/* LAYOUT */
+
+.container {
+  width: min(900px, 90%);
+  margin: auto;
+}
+
+header {
+  border-bottom: 1px solid var(--dim);
+  padding: 18px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.logo {
+  font-size: 17px;
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--green);
+}
+
+nav {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+nav a { font-size: 12px; }
+
+.hero {
+  min-height: 390px;
+  padding: 90px 0 60px;
+  position: relative;
+}
+
+.terminal {
+  color: #83ff73;
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+h1 {
+  font-size: clamp(34px, 8vw, 65px);
+  margin: 20px 0 5px;
+  letter-spacing: -3px;
+  text-shadow: 0 0 20px #39ff1455;
+  animation: flicker 5s infinite;
+}
+
+@keyframes flicker {
+  0%, 96%, 100% { opacity: 1; }
+  97% { opacity: .65; }
+  98% { opacity: 1; }
+}
+
+.subtitle {
+  color: #b2ffab;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.blink {
+  animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.button {
+  display: inline-block;
+  border: 1px solid var(--green);
+  padding: 10px 15px;
+  margin: 10px 8px 0 0;
+  transition: .2s;
+}
+
+.button:hover {
+  box-shadow: 0 0 18px #39ff1480;
+}
+
+section {
+  padding: 35px 0;
+  border-top: 1px dashed #168a0a70;
+  scroll-margin-top: 20px;
+}
+
+h2 {
+  font-size: 17px;
+  margin: 0 0 25px;
+  text-transform: uppercase;
+}
+
+h2::before {
+  content: "> ";
+}
+
+p {
+  line-height: 1.9;
+  color: #b4d9ae;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  border: 1px solid #168a0a80;
+  padding: 18px;
+  background: #071007;
+  transition: .25s;
+}
+
+.card:hover {
+  border-color: var(--green);
+  transform: translateY(-3px);
+  box-shadow: 0 0 18px #39ff1418;
+}
+
+.card h3 {
+  font-size: 14px;
+  margin-top: 0;
+}
+
+.tag {
+  display: inline-block;
+  color: #9bff90;
+  border: 1px solid #168a0a;
+  padding: 4px 7px;
+  margin: 3px;
+  font-size: 11px;
+}
+
+.bar {
+  height: 4px;
+  background: #163016;
+  margin-top: 12px;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+  animation: load 1.5s ease-out both;
+}
+
+@keyframes load {
+  from { width: 0; }
+}
+
+.timeline {
+  border-left: 1px solid var(--green);
+  padding-left: 20px;
+}
+
+.timeline article {
+  position: relative;
+  margin-bottom: 26px;
+}
+
+.timeline article::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 4px;
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green);
+}
+
+.date {
+  font-size: 11px;
+  color: #64b95a;
+}
+
+footer {
+  padding: 25px 0;
+  border-top: 1px solid var(--dim);
+  font-size: 11px;
+  color: #64b95a;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* MOVING BACKGROUND GRID */
+
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: .12;
+  background-image:
+    linear-gradient(#168a0a 1px, transparent 1px),
+    linear-gradient(90deg, #168a0a 1px, transparent 1px);
+  background-size: 45px 45px;
+  mask-image: linear-gradient(to bottom, black, transparent 80%);
+  animation: drift 20s linear infinite;
+}
+
+@keyframes drift {
+  to { background-position: 45px 45px; }
+}
+
+@media (pointer: coarse) {
+  body, a, button { cursor: auto; }
+  .cursor { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid-bg"></div>
+<div class="cursor" id="cursor"></div>
+
+<div class="container">
+
+<header>
+  <a href="#home" class="logo">RAYSKIE<span class="blink">_</span></a>
+
+  <nav>
+    <a href="#about">ABOUT</a>
+    <a href="#skills">SKILLS</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#experience">LOGS</a>
+    <a href="#contact">CONTACT</a>
+  </nav>
+</header>
+
+<main>
+
+<div class="hero" id="home">
+  <div class="terminal">
+    C:\USERS\RAYSKIE> INITIALIZING PORTFOLIO...<br>
+    LOADING USER PROFILE [OK]<br>
+    SYSTEM STATUS: ONLINE
+  </div>
+
+  <h1>HELLO, WORLD.</h1>
+
+  <div class="subtitle">
+    I AM RAYSKIE.<br>
+    ELECTRONICS ENGINEER IN PROGRESS.<br>
+    ASPIRING DEVELOPER. BUILDER. PROBLEM SOLVER.
+  </div>
+
+  <p>
+    Exploring the intersection of hardware, software
+    and ideas worth building.
+  </p>
+
+  <a href="#projects" class="button">[ VIEW PROJECTS ]</a>
+  <a href="#contact" class="button">[ ESTABLISH CONTACT ]</a>
+
+  <p class="terminal">
+    &gt; THE FUTURE IS STILL UNDER CONSTRUCTION
+    <span class="blink">█</span>
+  </p>
+</div>
+
+<section id="about">
+  <h2>USER PROFILE</h2>
+
+  <p>
+    An Electronics and Communication Engineering student at
+    KUET, interested in building practical technology,
+    experimenting with embedded systems and exploring software
+    development.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>IDENTITY.DAT</h3>
+      <p>
+        NAME: RAYSKIE<br>
+        FIELD: ECE<br>
+        INSTITUTION: KUET<br>
+        STATUS: LEARNING / BUILDING
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>CURRENT OBJECTIVE</h3>
+      <p>
+        Develop useful products, improve coding skills
+        and turn technical concepts into working systems.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>INSTALLED MODULES</h2>
+
+  <div class="grid">
+    <div class="card">
+      <h3>// PROGRAMMING</h3>
+      <span class="tag">C / C++</span>
+      <span class="tag">PYTHON</span>
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">PHP</span>
+      <span class="tag">ASP.NET</span>
+    </div>
+
+    <div class="card">
+      <h3>// HARDWARE & TOOLS</h3>
+      <span class="tag">ESP32</span>
+      <span class="tag">ARDUINO</span>
+      <span class="tag">OLED / I2C</span>
+      <span class="tag">COMSOL</span>
+      <span class="tag">MATLAB</span>
+      <span class="tag">POSTGRESQL</span>
+    </div>
+
+    <div class="card">
+      <h3>// CREATIVE & PRODUCTIVITY</h3>
+      <span class="tag">POWERPOINT</span>
+      <span class="tag">EXCEL</span>
+      <span class="tag">WORD</span>
+      <span class="tag">CANVA</span>
+      <span class="tag">AI PROMPTING</span>
+      <span class="tag">CONTENT PLANNING</span>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>PROJECT DATABASE</h2>
+
+  <div class="grid">
+
+    <div class="card">
+      <h3>01 // PATIENT ASSIST</h3>
+      <p>
+        An ESP32-based assistive communication system using
+        an IR sensor, OLED display, buzzer and Wi-Fi messaging.
+      </p>
+      <span class="tag">ESP32</span>
+      <span class="tag">IOT</span>
+      <span class="tag">C++</span>
+    </div>
+
+    <div class="card">
+      <h3>02 // DIGITAL DISPLAY</h3>
+      <p>
+        Experiments with an OLED interface, button inputs,
+        scrolling text and embedded menu systems.
+      </p>
+      <span class="tag">OLED</span>
+      <span class="tag">U8G2</span>
+      <span class="tag">EMBEDDED C++</span>
+    </div>
+
+    <div class="card">
+      <h3>03 // COAXIAL ANALYSIS</h3>
+      <p>
+        Simulation of a coaxial transmission line with
+        characteristic impedance and attenuation analysis.
+      </p>
+      <span class="tag">COMSOL</span>
+      <span class="tag">RF</span>
+      <span class="tag">ECE</span>
+    </div>
+
+    <div class="card">
+      <h3>04 // AC DIMMER</h3>
+      <p>
+        A TRIAC-based AC lamp dimmer exploring phase-angle
+        control and output RMS voltage.
+      </p>
+      <span class="tag">POWER ELECTRONICS</span>
+      <span class="tag">TRIAC</span>
+    </div>
+
+    <div class="card">
+      <h3>05 // DSP LAB</h3>
+      <p>
+        Digital signal processing experiments involving
+        DFT, FIR filters and IIR filter implementation.
+      </p>
+      <span class="tag">DSP</span>
+      <span class="tag">MATLAB</span>
+    </div>
+
+    <div class="card">
+      <h3>06 // WEB EXPERIMENTS</h3>
+      <p>
+        Exploring website interfaces, productivity tools
+        and software development through personal projects.
+      </p>
+      <span class="tag">HTML / CSS</span>
+      <span class="tag">PHP</span>
+    </div>
+
+  </div>
+</section>
+
+<section id="experience">
+  <h2>ACTIVITY LOGS</h2>
+
+  <div class="timeline">
+
+    <article>
+      <div class="date">STUDENT ORGANIZATION</div>
+      <h3>KUET Business and Entrepreneurship Club</h3>
+      <p>
+        Experience in executive responsibilities, event
+        coordination and business competition activities,
+        including NEXUS Season 1 and Season 2.
+      </p>
+    </article>
+
+    <article>
+      <div class="date">TECH CONTENT</div>
+      <h3>BytePress</h3>
+      <p>
+        Technology content planning, social media captions
+        and creative direction for digital content.
+      </p>
+    </article>
+
+    <article>
+      <div class="date">COMMUNICATION</div>
+      <h3>Hosting & Writing</h3>
+      <p>
+        Event hosting, technical writing and public speaking
+        through university and student activities.
+      </p>
+    </article>
+
+    <article>
+      <div class="date">TEACHING</div>
+      <h3>HTML Training</h3>
+      <p>
+        Helped train approximately 80 students in HTML
+        through a college IT club.
+      </p>
+    </article>
+
+  </div>
+</section>
+
+<section id="education">
+  <h2>EDUCATION.LOG</h2>
+
+  <div class="card">
+    <h3>Khulna University of Engineering & Technology</h3>
+    <p>
+      B.Sc. in Electronics and Communication Engineering<br>
+      2023 – 2027 (expected)
+    </p>
+  </div>
+
+  <br>
+
+  <div class="card">
+    <h3>Mohammadpur Preparatory College</h3>
+    <p>Higher Secondary Certificate · 2022 · GPA 5.00</p>
+  </div>
+
+  <br>
+
+  <div class="card">
+    <h3>Mohammadpur Preparatory School</h3>
+    <p>Secondary School Certificate · 2020 · GPA 5.00</p>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>OPEN CONNECTION</h2>
+
+  <p>
+    Have a project idea, technical question or opportunity?
+    Establish a connection.
+  </p>
+
+  <div class="card">
+    <p>
+      EMAIL: <a href="mailto:YOUR_EMAIL@example.com">
+      YOUR_EMAIL@example.com</a>
+    </p>
+
+    <p>
+      GITHUB: <a href="https://github.com/YOUR_USERNAME">
+      /YOUR_USERNAME</a>
+    </p>
+
+    <p>
+      LINKEDIN: <a href="https://linkedin.com/in/YOUR_USERNAME">
+      /YOUR_USERNAME</a>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>RAYSKIE.exe // VERSION 1.0</span>
+  <span>ALL SYSTEMS NOMINAL</span>
+  <span>© <span id="year"></span> // END OF FILE</span>
+</footer>
+
+</div>
+
+<script>
+const cursor = document.getElementById("cursor");
+let lastParticle = 0;
+
+document.addEventListener("mousemove", function(e) {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+
+  if (Date.now() - lastParticle > 35) {
+    const particle = document.createElement("span");
+    particle.className = "particle";
+    particle.textContent = Math.random() > 0.5 ? "+" : "·";
+
+    particle.style.left = e.clientX + "px";
+    particle.style.top = e.clientY + "px";
+    particle.style.fontSize = (8 + Math.random() * 10) + "px";
+
+    document.body.appendChild(particle);
+
+    setTimeout(() => particle.remove(), 650);
+    lastParticle = Date.now();
+  }
+});
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+</script>
+
+</body>
+</html>
